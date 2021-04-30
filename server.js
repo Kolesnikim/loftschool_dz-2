@@ -8,7 +8,7 @@ let connections = [];
 const interval = process.argv[2] ?? 1000;
 const time = process.argv[3] ?? 20000;
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
     connections.push(res);
