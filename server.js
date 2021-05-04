@@ -4,34 +4,21 @@ const PORT = 3000;
 
 const app = express();
 
-let connections = [];
-const interval = process.argv[2] ?? 1000;
-const time = process.argv[3] ?? 20000;
+const interval = process.argv[2] ?? 500;
+const time = process.argv[3] ?? 3000;
 
-app.get('/', (req, res) => {
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Transfer-Encoding', 'chunked');
-    connections.push(res);
+app.get('*', (req, res) => {
+    const showTimeInterval = setInterval(() => {
+        console.log(new Date().toUTCString());
+    }, interval);
+
+    setTimeout(() => {
+        clearInterval(showTimeInterval);
+        let date = new Date().toUTCString();
+        console.log(date);
+        res.end(date);
+    }, time);
 })
-
-const startDate = new Date();
-
-setTimeout(function run() {
-    let date = new Date();
-    if (date - startDate > time) {
-        connections.map((res, i) => {
-            console.log(`Connection ${i + 1}: ${date.toUTCString()}`)
-            res.write(date.toUTCString());
-            res.end();
-        })
-        connections = [];
-        date = new Date();
-    }
-    connections.map((res, i) => {
-        console.log(`Connection ${i + 1}: ${date.toUTCString()}`);
-    })
-    setTimeout(run, interval);
-}, interval)
 
 app.listen(PORT, () => {
     console.log('I listen')
