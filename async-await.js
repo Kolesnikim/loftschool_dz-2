@@ -77,6 +77,5 @@ readDirRecursivelyAsync(paths.src, 0)
     .then(() => {
         if (deleteSource) return rmDir(paths.src, {recursive: true});
     })
-    .then(() => {})
     .catch(error => console.log(error))
 
